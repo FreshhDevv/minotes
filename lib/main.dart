@@ -7,6 +7,7 @@ import 'package:minotes/firebase_options.dart';
 import 'package:minotes/views/login_view.dart';
 import 'package:minotes/views/register_view.dart';
 import 'package:minotes/views/verify_email_view.dart';
+import 'dart:developer' as devtools show log;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +55,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
+enum MenuAction { logout }
+
 class NotesView extends StatefulWidget {
   const NotesView({Key? key}) : super(key: key);
 
@@ -67,6 +70,21 @@ class _NotesViewState extends State<NotesView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Main UI'),
+        actions: [
+          PopupMenuButton<MenuAction>(
+            onSelected: (value) {
+              devtools.log(value.toString());
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text('Logout'),
+                ),
+              ];
+            },
+          )
+        ],
       ),
       body: const Text('Hello World'),
     );
